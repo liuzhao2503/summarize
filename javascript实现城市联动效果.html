@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>实现城市联动效果</title>
+</head>
+<body>
+	<h2>选择所在省份和城市</h2>
+	省份：<select name="" id="provinces">
+		<option>--请选择--</option>
+	</select>
+
+	城市：
+	<select id="cities">
+		<option>--请选择城市--</option>
+	</select>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			var provincesArr = ['湖南','湖北','广东'];
+			var citiesArr = ["长沙,桂州,湘潭,常德,益阳,张家界","武汉,宜昌,恩施,黄石,襄樊,荆州","广州,珠海,佛山,东莞,深圳,惠州"];
+			var provinces = document.getElementById('provinces');
+			var cities = document.getElementById('cities');
+
+			for(var i = 0;i<provincesArr.length;i++){
+				var op = document.createElement('option');
+				op.value = i;
+				op.innerHTML = provincesArr[i];
+				provinces.appendChild(op);
+			}
+
+			//根据省份，城市列表联动
+			provinces.onchange = function(){
+				var index = this.value;
+				cities.options.length = 1;
+				if(citiesArr[index]==null){
+					return;
+				}
+
+				var secondCitisArr = citiesArr[index].split(',');
+				for(var i = 0;i<secondCitisArr.length;i++){
+					var op = document.createElement('option');
+					op.innerHTML = secondCitisArr[i];
+					cities.appendChild(op);
+				}
+			}
+
+		}
+	</script>
+</body>
+</html>

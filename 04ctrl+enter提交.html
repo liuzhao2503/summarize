@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>enter+ctrl提交</title>
+	<style type="text/css">
+		#box {
+			width: 200px;
+			height: 300px;
+			border:1px solid black;
+		}
+		#txt1 {
+			border:1px solid black;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+	<input type="text" name="" id="txt1" value = 'ctrl+enter提交'>
+	<input type="button" name="" id="btn" value="提交">
+<script type="text/javascript">
+	
+	var box = document.getElementById('box');
+	var txt1 = document.getElementById('txt1');
+	var btn = document.getElementById('btn');
+
+	window.onkeydown = function(e){
+		var e = e || window.event;
+		if(e.keyCode==13 && e.ctrlKey){
+			box.innerHTML+= txt1.value +'\n\r';
+			txt1.value = '';
+		}
+	}
+</script>
+</body>
+</html>

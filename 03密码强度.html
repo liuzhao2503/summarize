@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>检测密码强度</title>
+	<style type="text/css">
+		
+		#table td {
+			width: 50px;
+			height: 19px;
+			background-color: #f3f3f3;
+			border:1px solid #d0d0d0;
+			line-height: 9px;
+			color: #bbb;
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<form>
+		<label for="password">密码：</label>
+		<input type="password" id="password" name="password">
+		<table id="table" border="0" cellpadding="0" cellspacing="0" style = "display: inline-table;">
+			<td id="td1">弱</td>
+			<td id="td2">中</td>
+			<td id="td3">强</td>
+		</table>
+	</form>
+
+	<script type="text/javascript">
+		
+		var password = document.getElementById('password');//获取密码输入框
+		var td1 = document.getElementById('td1');
+		var td2 = document.getElementById('td2');
+		var td3 = document.getElementById('td3');
+
+		function checkPassword(value){
+			if(!value) { return 1;}
+			if(value.length<6){ return 1; }
+			if(value.length>=8 && value.match(/[0-9]/) && value.match(/[a-z]/) && value.match(/[A-Z]/)){
+				return 3;
+			}
+			return 2;
+		}
+
+		setInterval(function(){
+			var level = checkPassword(password.value);
+			switch(level){
+				case 1 : {
+					td1.style.backgroundColor = '#ff8840';
+					td2.style.backgroundColor = null;
+					td3.style.backgroundColor = null;
+					break;
+				}
+				case 2 : {
+					td1.style.backgroundColor ='#ff8840';
+					td2.style.backgroundColor = '#ffff6f';
+					td3.style.backgroundColor = null;
+					break;
+				}
+				case 3 : {
+					td1.style.backgroundColor ='#ff8840';
+					td2.style.backgroundColor = '#ffff6f';
+					td3.style.backgroundColor = '#a8ff24';
+					break;
+				}
+			}
+		},30)
+	</script>
+</body>
+</html>
