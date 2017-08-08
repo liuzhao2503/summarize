@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>字符串查找和替换</title>
+    <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: "微软雅黑";
+    }
+
+    p {
+        width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        border: 5px solid #808080;
+        font-size: 18px;
+    }
+
+    #strength {
+        font-size: 14px;
+    }
+
+    .btn {
+        width: 40px;
+        height: 25px;
+        line-height: 25px;
+        border: 1px solid #808080;
+        text-align: center;
+        position: absolute;
+        left: 50%;
+        background: #dcdcdc;
+        padding: 5px;
+        top: 100px;
+        margin-left: 225px;
+        cursor: pointer;
+    }
+
+    #ChangeCard {
+        width: 300px;
+        height: 100px;
+        padding: 20px;
+        border: 5px solid #cd5c5c;
+        position: absolute;
+        left: 50%;
+        top: 300px;
+        margin-left: -175px;
+        overflow: hidden;
+        display: none;
+    }
+
+    .Change_div {
+        float: left;
+        width: 40px;
+        height: 20px;
+        text-align: center;
+        line-height: 20px;
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    .myChange {
+        clear: left;
+        border-top: 2px solid #db7093;
+        padding: 20px;
+        /*margin-bottom: 25px;*/
+    }
+
+    input[type="text"] {
+        display: inline-block;
+        width: 100px;
+    }
+    </style>
+</head>
+
+<body>
+    <p id="ps">
+        <span id="spans">
+        妙味课堂是一支独具特色的IT培训团队，妙味反对传统IT教育枯燥乏味的教学模式，妙味提供一种全新的快乐学习方法！
+        2013年底，妙味课堂最新推出"远程培训"服务，受到很多朋友们的喜爱与追捧，我们必将更加努力的帮助远程学习的朋友实现技术提升……
+    </span>
+        <a id="strength" href="javascript:;">>>收缩</a>
+    </p>
+    <div class="btn">查找</div>
+    <div class="btn" style="top:135px;">替换</div>
+    <div id="ChangeCard">
+        <div class="Change_div">查找</div>
+        <div class="Change_div">替换</div>
+        <div class="myChange">
+            <input class="myContent" type="text" />
+            <input id="search" class="do_btn" type="button" value="查找" />
+        </div>
+        <div class="myChange">
+            <input class="myContent" type="text" />
+            <input class="myContent" type="text" />
+            <input type="button" id="re_serch" class="do_btn" value="chaz">
+            <input id="replace" class="do_btn" type="button" value="替换" />
+        </div>
+    </div>
+    <script type="text/javascript">
+    var strength = document.getElementById('strength');
+    var spans = document.getElementById('spans');
+    var flag = true;
+    var spansTxt = spans.innerHTML;
+    strength.onclick = function() {
+        if (flag) {
+            var newStr = spansTxt.substring(0, 26);
+            spans.innerHTML = newStr + '...';
+            strength.innerHTML = '>>展开';
+            flag = !flag;
+        } else {
+            strength.innerHTML = '>>收缩';
+            spans.innerHTML = spansTxt;
+            flag = !flag;
+        }
+    }
+
+    //下面的changeCard
+
+    var changeCard = document.getElementById('ChangeCard');
+    var obtn = document.getElementsByClassName('btn');
+    var change_div = document.getElementsByClassName('Change_div');
+    obtn[0].onclick = function() {
+        changeCard.style.display = "block";
+        document.getElementsByClassName("Change_div")[0].style.background = "#db7093";
+        document.getElementsByClassName("Change_div")[1].style.background = "#fff";
+        document.getElementsByClassName('myChange')[0].style.display = 'block';
+        document.getElementsByClassName('myChange')[1].style.display = 'none';
+    }
+    obtn[1].onclick = function() {
+        changeCard.style.display = 'block';
+        document.getElementsByClassName("Change_div")[1].style.background = "#db7093";
+        document.getElementsByClassName("Change_div")[0].style.background = "#fff";
+        document.getElementsByClassName('myChange')[1].style.display = 'block';
+        document.getElementsByClassName('myChange')[0].style.display = 'none';
+    }
+    change_div[0].onclick = obtn[0].onclick;
+    change_div[1].onclick = obtn[1].onclick;
+
+    //主要内容开始------------------------
+    //查找
+    var search = document.getElementById('search'); //获取查找按钮
+    search.onclick = function() {
+        var str = /^\S+$/;
+        var myContent = spansTxt;
+        var mySearch = document.getElementsByClassName('myContent')[0].value;
+        if (str.test(mySearch)) {
+            if (myContent.split(mySearch).length == 1) {
+                alter('Sorry ！没有找到您要查找的内容！');
+                document.getElementsByClassName("myContent")[0].value = ""; //清空 查找的输入框
+                return false;
+            }
+            spans.innerHTML = myContent.split(mySearch).join("<span style='background:#ffff00;'>" + mySearch + "</span>");
+            spansTxt = spans.innerHTML;
+            document.getElementsByClassName("myContent")[0].value = ""; //清空
+        } else {
+            alert('请输入查找内容');
+
+        }
+
+    }
+
+    //替换部分开始=============================
+    var replace = document.getElementById('replace'); //获取替换按钮
+    var re_serch = document.getElementById('re_serch');//获取替换部分的查找按钮
+    re_serch.onclick = function() {
+        var str = /^\S+$/;
+        var myContent = spansTxt;
+        var mySearch = document.getElementsByClassName('myContent')[1].value;
+        if (str.test(mySearch)) {
+            if (myContent.split(mySearch).length == 1) {
+                alter('对不起，您要查找的内容 没有找到！请重新输入要查找的内容！');
+                document.getElementsByClassName("myContent")[0].value = ""; //清空 查找的输入框
+                return false;
+            }
+            spans.innerHTML = myContent.split(mySearch).join("<span style='background:#ffff00;'>" + mySearch + "</span>");
+            spansTxt = spans.innerHTML;
+            document.getElementsByClassName("myContent")[0].value = ""; //清空
+        } else {
+            alert('Sorry   ====请输入要查找内容');
+
+        }
+    }
+    replace.onclick = function() {
+        var str = /^\S+$/;
+        var myContent = spansTxt;
+        var myChange1 = document.getElementsByClassName("myContent")[1].value;
+        // var myChange1 = document.getElementsByClassName('myContent')[1].value; 
+        var myChange2 = document.getElementsByClassName("myContent")[2].value;
+        if (!str.test(myChange1)) {//如果查找框不存在 
+            alert('对不起，请输入要查找的内容！');
+            return false;
+        }
+        if (!str.test(myChange2)) {//如果替换内容为空
+            if (confirm('确定要用空字符串来替换查找的内容吗？')) {
+                spans.innerHTML = myContent.split(myChange1).join("<span style='background:orange;'>" + myChange2 + "</span>");
+                document.getElementsByClassName("myContent")[1].value = '';//清空查找框内容
+                return false;
+
+            }
+        }
+        //myContent 内容为原文 段落内容   根据查找内容切割  再用   替换  内容join
+        spans.innerHTML = myContent.split(myChange1).join("<span style='background:orange;'>" + myChange2 + "</span>");
+        spansTxt = spans.innerHTML;
+        document.getElementsByClassName("myContent")[2].value = '';//清空tihuan框内容
+        document.getElementsByClassName("myContent")[1].value = '';//清空查找框内容
+
+    }
+    </script>
+</body>
+
+</html>
